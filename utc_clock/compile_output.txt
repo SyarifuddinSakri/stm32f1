@@ -1,0 +1,12 @@
+  CC	my-project.c
+arm-none-eabi-gcc -Os -std=c99 -ggdb3 -mcpu=cortex-m3 -mthumb -msoft-float -fno-common -ffunction-sections -fdata-sections -Wextra -Wshadow -Wno-unused-variable -Wimplicit-function-declaration -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes  -MD -Wall -Wundef -I. -I../my-common-code -I. -I../libopencm3/include -I. -I../my-common-code -I. -I../libopencm3/include  -DSTM32F1 -DSTM32F103C8T6 -I../libopencm3/include -o bin/my-project.o -c my-project.c
+  CC	../my-common-code/api.c
+arm-none-eabi-gcc -Os -std=c99 -ggdb3 -mcpu=cortex-m3 -mthumb -msoft-float -fno-common -ffunction-sections -fdata-sections -Wextra -Wshadow -Wno-unused-variable -Wimplicit-function-declaration -Wredundant-decls -Wstrict-prototypes -Wmissing-prototypes  -MD -Wall -Wundef -I. -I../my-common-code -I. -I../libopencm3/include -I. -I../my-common-code -I. -I../libopencm3/include  -DSTM32F1 -DSTM32F103C8T6 -I../libopencm3/include -o bin/api.o -c ../my-common-code/api.c
+  CXX	function.cxx
+arm-none-eabi-g++ -Os  -ggdb3 -mcpu=cortex-m3 -mthumb -msoft-float -fno-common -ffunction-sections -fdata-sections -Wextra -Wshadow -Wredundant-decls  -Weffc++  -MD -Wall -Wundef -I. -I../my-common-code -I. -I../libopencm3/include -I. -I../my-common-code -I. -I../libopencm3/include  -DSTM32F1 -DSTM32F103C8T6 -I../libopencm3/include -o bin/function.o -c function.cxx
+  AS	../my-common-code/api-asm.S
+arm-none-eabi-gcc -Os -mcpu=cortex-m3 -mthumb -msoft-float -ggdb3  -MD -Wall -Wundef -I. -I../my-common-code -I. -I../libopencm3/include -I. -I../my-common-code -I. -I../libopencm3/include  -DSTM32F1 -DSTM32F103C8T6 -I../libopencm3/include -o bin/api-asm.o -c ../my-common-code/api-asm.S
+  LD	awesomesauce.elf
+arm-none-eabi-gcc -Tstm32f103c8t6.ld -L../libopencm3/lib -nostartfiles -mcpu=cortex-m3 -mthumb -msoft-float -specs=nano.specs -Wl,--gc-sections -L../libopencm3/lib bin/my-project.o bin/api.o bin/function.o bin/api-asm.o -lopencm3_stm32f1 -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group -o awesomesauce.elf
+  OBJCOPY	awesomesauce.bin
+arm-none-eabi-objcopy -O binary  awesomesauce.elf awesomesauce.bin
